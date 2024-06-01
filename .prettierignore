@@ -1,0 +1,6 @@
+*.md
+node_modules
+.husky
+public
+.prettierrc.json
+.eslintrc.cjs
