@@ -1,13 +1,20 @@
 import { Box } from '@mui/material';
-import { useBreakPoint } from '../hooks';
 import { useRef } from 'react';
 import { useUploadImages } from '../hooks/useUploadImages';
 import { AddPhotoAlternateOutlined } from '@mui/icons-material';
+import { StagingImage } from './StagingImage';
+import { AddImageBox } from './AddImageBox';
+import { useBreakPoint } from '../hooks';
 
 export const UploadImages = () => {
 	const breakpoint = useBreakPoint();
-	const { isDragging, setIsDragging, handleFileSelect, handleFileDrop } =
-		useUploadImages();
+	const {
+		isDragging,
+		setIsDragging,
+		handleFileSelect,
+		handleFileDrop,
+		uploadImages,
+	} = useUploadImages();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const handleUploadClick = () => {
@@ -28,55 +35,81 @@ export const UploadImages = () => {
 			<Box
 				sx={{
 					display: 'flex',
-					justifyContent: 'flex-start',
-					alignItems: 'center',
+					justifyContent: 'start',
+					alignItems: 'start',
 					flexWrap: 'wrap',
 					aspectRatio: ['xs'].includes(breakpoint) ? '2/1' : '4/1',
+					overflowY:
+						breakpoint === 'xs'
+							? uploadImages.length >= 2
+								? 'scroll'
+								: 'hidden'
+							: uploadImages.length >= 4
+								? 'scroll'
+								: 'hidden',
 					overflowX: 'hidden',
 					width: '100%',
 					padding: '10px 10px 0 0',
 					border: 'dashed 2px #000',
 				}}
 			>
-				<Box
-					onDragOver={handleDragOver}
-					onDragLeave={handleDragLeave}
-					onDrop={handleFileDrop}
-					onClick={handleUploadClick}
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center',
-						alignItems: 'center',
-						gap: '5px',
-						width: 'calc(100% - 10px)',
-						height: 'calc(100% - 10px)',
-						margin: '0 0 10px 10px',
-						cursor: 'pointer',
-						overflow: 'hidden',
-						wordBreak: 'break-all',
-						color: '#000',
-						backgroundColor: isDragging ? '#ddd' : 'transparent',
-						transition: 'background-color 0.2s',
-						'&:hover': {
-							backgroundColor: '#ddd',
-						},
-					}}
-				>
-					<AddPhotoAlternateOutlined />
-					<div style={{ textAlign: 'center' }}>
-						{isDragging
-							? '商品画像をここにドロップ'
-							: 'クリックまたはドラッグで商品画像をアップロード'}
-					</div>
-				</Box>
+				{uploadImages.length === 0 ? (
+					<Box
+						onDragOver={handleDragOver}
+						onDragLeave={handleDragLeave}
+						onDrop={handleFileDrop}
+						onClick={handleUploadClick}
+						sx={{
+							display: 'flex',
+							justifyContent: 'start',
+							alignItems: 'start',
+							flexWrap: 'wrap',
+							gap: '10px',
+							width: 'calc(100% - 10px)',
+							height: 'calc(100% - 10px)',
+							margin: '0 0 10px 10px',
+							cursor: 'pointer',
+							overflow: 'hidden',
+							wordBreak: 'break-all',
+							color: '#000',
+							backgroundColor: isDragging ? '#ddd' : 'transparent',
+							transition: 'background-color 0.2s',
+							'&:hover': {
+								backgroundColor: '#ddd',
+							},
+						}}
+					>
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								flexDirection: 'column',
+								width: '100%',
+								height: '100%',
+							}}
+						>
+							<AddPhotoAlternateOutlined />
+							<div style={{ textAlign: 'center' }}>
+								{isDragging
+									? '商品画像をここにドロップ'
+									: 'クリックまたはドラッグで商品画像をアップロード'}
+							</div>
+						</Box>
+					</Box>
+				) : (
+					<>
+						{uploadImages.map((image, index) => (
+							<StagingImage key={index} url={image} />
+						))}
+						{uploadImages.length < 8 && <AddImageBox />}
+					</>
+				)}
 			</Box>
+
 			<input
 				type="file"
-				accept="image/png,
-					image/jpg,
-					image/jpeg,
-					image/webp"
+				accept="image/png, image/jpg, image/jpeg, image/webp"
 				ref={fileInputRef}
 				style={{
 					display: 'none',
