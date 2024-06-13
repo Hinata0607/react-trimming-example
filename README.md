@@ -1,3 +1,7 @@
+# Qiitaの投稿記事 「【React + Typescript】複数枚ステージングさせた画像をトリミングしてみよう」シリーズのリポジトリ
+
+Qiita: https://qiita.com/Hinata0607/items/ef0d04f3e5c40c9dc1ee
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
