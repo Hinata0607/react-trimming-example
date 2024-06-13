@@ -24,6 +24,7 @@ export interface useUploadImagesProps {
 		setIsPopperOpen,
 		setAnchorEl,
 	}: HandleImageDeleteProps) => void;
+	handleSendImages: () => void;
 }
 
 export interface HandleImageDeleteProps {

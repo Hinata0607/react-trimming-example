@@ -1,7 +1,11 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { UploadImages } from './components';
+import { blue } from '@mui/material/colors';
+import { useUploadImages } from './hooks';
 
 function App() {
+	const { handleSendImages } = useUploadImages();
+
 	return (
 		<>
 			<Box
@@ -18,6 +22,13 @@ function App() {
 				}}
 			>
 				<UploadImages />
+				<Button
+					onClick={handleSendImages}
+					sx={{ backgroundColor: blue[500] }}
+					variant="contained"
+				>
+					送信
+				</Button>
 			</Box>
 		</>
 	);

@@ -23,6 +23,8 @@ export const useTriming = (): UseTrimmingProps => {
 		uploadImages,
 		setUploadImages,
 		originalImages,
+		binaryImages,
+		setBinaryImages,
 		setCrops,
 		crops,
 		zooms,
@@ -69,6 +71,15 @@ export const useTriming = (): UseTrimmingProps => {
 				canvasSize
 			);
 		};
+
+		// トリミング結果をBlob形式で格納
+		canvas.toBlob((blob) => {
+			if (blob) {
+				const newBinaryImages = [...binaryImages];
+				newBinaryImages[index] = blob;
+				setBinaryImages(newBinaryImages);
+			}
+		});
 	};
 
 	// クロッピング位置を確定させる関数(移動量の確定時に発火)
@@ -135,7 +146,7 @@ export const useTriming = (): UseTrimmingProps => {
 		return { width: minSize, height: minSize };
 	};
 
-	// トリミング書く定時に発火する関数
+	// トリミング確定時に発火する関数
 	const handleTrimmingComplete = ({
 		index,
 		canvasRef,
@@ -153,6 +164,15 @@ export const useTriming = (): UseTrimmingProps => {
 		newUploadImages[index] = dataUrl;
 		// 更新した配列を設定
 		setUploadImages(newUploadImages);
+
+		// トリミング結果をBlob形式で格納
+		canvas.toBlob((blob) => {
+			if (blob) {
+				const newBinaryImages = [...binaryImages];
+				newBinaryImages[index] = blob;
+				setBinaryImages(newBinaryImages);
+			}
+		});
 	};
 
 	// トリミング座標(crops)変更時に発火する関数

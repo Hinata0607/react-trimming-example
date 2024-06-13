@@ -15,6 +15,8 @@ export const useUploadImages = (): useUploadImagesProps => {
 		setUploadImages,
 		originalImages,
 		setOriginalImages,
+		binaryImages,
+		setBinaryImages,
 		crops,
 		setCrops,
 		zooms,
@@ -70,6 +72,9 @@ export const useUploadImages = (): useUploadImagesProps => {
 		const newOriginalImages = [...originalImages];
 		newOriginalImages.splice(index, 1);
 
+		const newBinaryImages = [...binaryImages];
+		newBinaryImages.splice(index, 1);
+
 		const newCrops = [...crops];
 		newCrops.splice(index, 1);
 		newCrops.push({ x: 0, y: 0 });
@@ -80,10 +85,25 @@ export const useUploadImages = (): useUploadImagesProps => {
 
 		setUploadImages(newUploadImages);
 		setOriginalImages(newOriginalImages);
+		setBinaryImages(newBinaryImages);
 		setCrops(newCrops);
 		setZooms(newZooms);
 		setIsOpen(false);
 		setAnchorEl(null);
+	};
+
+	// 疑似的にバックエンドに画像を送信する関数
+	const handleSendImages = () => {
+		// formDataとしてBlobデータを格納
+		const formData = new FormData();
+		binaryImages.forEach((image) => {
+			formData.append('trimmingImage', image);
+		});
+
+		// 正しく格納できているか確認
+		for (const [key, value] of formData.entries()) {
+			console.log(`${key}: ${value}`);
+		}
 	};
 
 	return {
@@ -100,5 +120,6 @@ export const useUploadImages = (): useUploadImagesProps => {
 		handleFileSelect,
 		handleFileDrop,
 		handleImageDelete,
+		handleSendImages,
 	};
 };

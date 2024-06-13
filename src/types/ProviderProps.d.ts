@@ -9,6 +9,10 @@ export interface ProviderProps {
 	setOriginalImages: (
 		originalImages: string[] | ((prev: string[]) => string[])
 	) => void;
+	binaryImages: Blob[];
+	setBinaryImages: (
+		originalImages: Blob[] | ((prev: Blob[]) => Blob[])
+	) => void;
 	crops: { x: number; y: number }[];
 	setCrops: (
 		crops:
