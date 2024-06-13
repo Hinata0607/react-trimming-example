@@ -100,7 +100,7 @@ export const UploadImages = () => {
 				) : (
 					<>
 						{uploadImages.map((image, index) => (
-							<StagingImage key={index} url={image} />
+							<StagingImage key={index} index={index} url={image} />
 						))}
 						{uploadImages.length < 8 && <AddImageBox />}
 					</>

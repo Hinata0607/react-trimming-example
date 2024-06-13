@@ -19,4 +19,15 @@ export interface useUploadImagesProps {
 	setZooms: (zooms: number[] | ((prev: number[]) => number[])) => void;
 	handleFileSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	handleFileDrop: (event: React.DragEvent<HTMLDivElement>) => void;
+	handleImageDelete: ({
+		index,
+		setIsPopperOpen,
+		setAnchorEl,
+	}: HandleImageDeleteProps) => void;
+}
+
+export interface HandleImageDeleteProps {
+	index: number;
+	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }

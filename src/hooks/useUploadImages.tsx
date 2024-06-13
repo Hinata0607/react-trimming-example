@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useUploadImagesProps } from '../types';
+import { HandleImageDeleteProps, useUploadImagesProps } from '../types';
 import { Context } from '../provider/Context';
 
 export const useUploadImages = (): useUploadImagesProps => {
@@ -58,7 +58,33 @@ export const useUploadImages = (): useUploadImagesProps => {
 		}
 	};
 
-	console.log(uploadImages);
+	// ステージングされた画像を削除する関数
+	const handleImageDelete = ({
+		index,
+		setIsOpen,
+		setAnchorEl,
+	}: HandleImageDeleteProps) => {
+		const newUploadImages = [...uploadImages];
+		newUploadImages.splice(index, 1);
+
+		const newOriginalImages = [...originalImages];
+		newOriginalImages.splice(index, 1);
+
+		const newCrops = [...crops];
+		newCrops.splice(index, 1);
+		newCrops.push({ x: 0, y: 0 });
+
+		const newZooms = [...zooms];
+		newZooms.splice(index, 1);
+		newZooms.push(1);
+
+		setUploadImages(newUploadImages);
+		setOriginalImages(newOriginalImages);
+		setCrops(newCrops);
+		setZooms(newZooms);
+		setIsOpen(false);
+		setAnchorEl(null);
+	};
 
 	return {
 		isDragging,
@@ -73,5 +99,6 @@ export const useUploadImages = (): useUploadImagesProps => {
 		setZooms,
 		handleFileSelect,
 		handleFileDrop,
+		handleImageDelete,
 	};
 };

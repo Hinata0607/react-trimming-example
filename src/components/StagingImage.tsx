@@ -4,10 +4,12 @@ import { useState } from 'react';
 import { ImagePopper } from './ImagePopper';
 import { MoreVert } from '@mui/icons-material';
 import { StagingImageProps } from '../types';
+import { Trimming } from './Trimming';
 
-export const StagingImage = ({ url }: StagingImageProps) => {
+export const StagingImage = ({ index, url }: StagingImageProps) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const [isTrimming, setIsTrimming] = useState<boolean>(false);
 	const breakpoint = useBreakPoint();
 
 	const handleOpen = (e: React.MouseEvent<HTMLElement>): void => {
@@ -55,10 +57,17 @@ export const StagingImage = ({ url }: StagingImageProps) => {
 				<MoreVert />
 			</IconButton>
 			<ImagePopper
+				index={index}
 				isOpen={isOpen}
 				setIsOpen={setIsOpen}
 				anchorEl={anchorEl}
 				setAnchorEl={setAnchorEl}
+				setisTrimming={setIsTrimming}
+			/>
+			<Trimming
+				index={index}
+				isTrimming={isTrimming}
+				setIsTrimming={setIsTrimming}
 			/>
 		</Box>
 	);

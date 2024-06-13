@@ -1,14 +1,18 @@
 import { Box, Paper, Popper } from '@mui/material';
 import { ImagePopperProps } from '../types/ImagePopperProps';
 import { useEffect, useRef } from 'react';
+import { useUploadImages } from '../hooks';
 
 export const ImagePopper = ({
+	index,
 	isOpen,
 	setIsOpen,
 	anchorEl,
 	setAnchorEl,
+	setisTrimming,
 }: ImagePopperProps) => {
 	const popperRef = useRef<HTMLDivElement>(null);
+	const { handleImageDelete } = useUploadImages();
 
 	useEffect(() => {
 		const handlePopperClose = (e: MouseEvent) => {
@@ -47,6 +51,7 @@ export const ImagePopper = ({
 				}}
 			>
 				<Box
+					onClick={() => setisTrimming(true)}
 					sx={{
 						width: '100%',
 						margin: '0 auto',
@@ -63,6 +68,13 @@ export const ImagePopper = ({
 					トリミング
 				</Box>
 				<Box
+					onClick={() =>
+						handleImageDelete({
+							index: index,
+							setAnchorEl: setAnchorEl,
+							setIsOpen: setIsOpen,
+						})
+					}
 					sx={{
 						width: '100%',
 						margin: '0 auto',

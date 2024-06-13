@@ -1,6 +1,8 @@
 export interface ImagePopperProps {
+	index: number;
 	isOpen: boolean;
-	setIsOpen: (isOpen: boolean) => void;
+	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	anchorEl: HTMLElement | null;
-	setAnchorEl: (anchorEl: HTMLElement | null) => void;
+	setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+	setisTrimming: (isTrimming: boolean) => void;
 }
